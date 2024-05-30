@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-public class Utilisateur {
+public class Utilisateur  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUtilisateur;
@@ -40,7 +40,7 @@ public class Utilisateur {
     @Column(name="email", unique = true)
     private String email;
     @Column(name="motdepasse", unique = true)
-    private String mdp ;
+    private String password ;
     @Column(name ="dateinscription")
     private Date dateinscription;
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -64,5 +64,9 @@ public class Utilisateur {
     @Transient
     private String errormessage;
  
-    
+    public Utilisateur(String nom, String password, Set<Role> roles) {
+        this.nom = nom;
+        this.password = password;
+        this.roles = roles;
+    }
 }
