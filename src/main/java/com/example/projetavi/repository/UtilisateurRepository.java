@@ -7,8 +7,8 @@ import com.example.projetavi.entite.Utilisateur;
 public interface UtilisateurRepository extends JpaRepository<Utilisateur,Long> {
 
     public Utilisateur findByEmail(String email);
-    public Utilisateur findByEmailAndMdp( String email , String mdp);
-    public  Utilisateur findByNomAndPrenom(String ko ,String kl);
+    public Utilisateur findByEmailAndPassword( String email , String mdp);
+    public  Utilisateur findByNomAndEmail(String ko ,String kl);
 }
 
 

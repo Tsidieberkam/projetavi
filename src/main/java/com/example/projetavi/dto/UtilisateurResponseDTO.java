@@ -37,5 +37,6 @@ public class UtilisateurResponseDTO {
     private List<Notification> notifications = new ArrayList<>();
     private Set<Role> roles = new HashSet<>();
     private String typeUtilisateur;
+    private Date dateEtLieuNaissance;
     private String errormessage;
 }

@@ -26,13 +26,13 @@ public class RoleRestAPI {
         this.rs = rs;
     }
    
-    @PostMapping( path="/saverole")
+    @PostMapping( path="/public/saverole")
     public List<RoleResponseDTO> saverole (@RequestBody List<RoleRequestDTO> rst){
         return rs.ajout(rst);
     }
     
 
-    @GetMapping(path = "/role/liste")
+    @GetMapping(path = "/public/role/liste")
     public List<RoleResponseDTO> allrole(){
         return rs.list();
     }

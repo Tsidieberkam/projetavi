@@ -18,4 +18,5 @@ public class UtilisateurRequestDTO {
     private String mdp ;
     private Date dateEtLieuNaissance;
     private String errormessage;
+    private Date dateinscription;
 }
