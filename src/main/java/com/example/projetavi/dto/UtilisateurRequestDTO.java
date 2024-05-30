@@ -1,5 +1,7 @@
 package com.example.projetavi.dto;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +16,6 @@ public class UtilisateurRequestDTO {
     private String ville;
     private String email;
     private String mdp ;
+    private Date dateEtLieuNaissance;
+    private String errormessage;
 }

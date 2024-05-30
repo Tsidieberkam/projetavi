@@ -8,7 +8,7 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur,Long> {
 
     public Utilisateur findByEmail(String email);
     public Utilisateur findByEmailAndMdp( String email , String mdp);
-
+    public  Utilisateur findByNomAndPrenom(String ko ,String kl);
 }
 
 
