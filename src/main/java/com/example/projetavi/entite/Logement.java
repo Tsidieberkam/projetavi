@@ -15,7 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,9 +35,13 @@ public class Logement {
     private String description;
     @Column(name = "disponibilite")
     private boolean disponibilite;
-    @ManyToOne
-    @JoinColumn(name = "id_partenaire")
-    private Partenaire partenaire;
+    @Column(name = "prix")
+    private double prix;
+    @Column(name = "modele")
+    private String modele;
+    @OneToOne
+    @JoinColumn(name = "id_utilisateur")
+    private Utilisateur partenaire;
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name="logement_document",joinColumns=@JoinColumn(name="idLogement"),inverseJoinColumns=@JoinColumn(name="id_document"))
     List<Document> documents = new ArrayList<>();

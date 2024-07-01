@@ -14,9 +14,12 @@ public class UtilisateurRequestDTO {
     private String prenom;
     private String pays;
     private String ville;
-    private String email;
+    private String email; 
     private String mdp ;
     private Date dateEtLieuNaissance;
     private String errormessage;
     private Date dateinscription;
+    private String LieuNaissance;
+    private String numero_telephone;
+    private String codePostal;
 }

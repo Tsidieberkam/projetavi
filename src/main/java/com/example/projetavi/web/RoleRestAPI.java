@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,9 @@ public class RoleRestAPI {
     public List<RoleResponseDTO> allrole(){
         return rs.list();
     }
+    
 
+    @PutMapping(path ="role/delete")
     public List<RoleResponseDTO> deleteRole(@PathVariable("id") Long idRole){
          
         return rs.delete(idRole);

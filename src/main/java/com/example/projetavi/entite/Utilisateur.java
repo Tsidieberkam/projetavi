@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 public class Utilisateur  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUtilisateur;
+    private Long id_utilisateur;
     @Column( name= "nom")
     private String nom;
     @Column(name="prenom")
@@ -44,7 +44,7 @@ public class Utilisateur  {
     @Column(name ="dateinscription")
     private Date dateinscription;
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "utilisateur_account", joinColumns = @JoinColumn(name = "idutilisateur"), inverseJoinColumns = @JoinColumn(name = "idcompte"))
+    @JoinTable(name = "utilisateur_account", joinColumns = @JoinColumn(name = "id_utilisateur"), inverseJoinColumns = @JoinColumn(name = "idcompte"))
     List<Account> account = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "id_avi")
@@ -53,13 +53,13 @@ public class Utilisateur  {
     @JoinColumn(name = "idLogement")
     private Logement logement;
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "utilisateur_message", joinColumns = @JoinColumn(name = "idutilisateur"), inverseJoinColumns = @JoinColumn(name = "idmessage"))
+    @JoinTable(name = "utilisateur_message", joinColumns = @JoinColumn(name = "id_utilisateur"), inverseJoinColumns = @JoinColumn(name = "idmessage"))
     List<Message> messages = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "utilisateur_notification", joinColumns = @JoinColumn(name = "idutilisateur"), inverseJoinColumns = @JoinColumn(name = "idnotification"))
+    @JoinTable(name = "utilisateur_notification", joinColumns = @JoinColumn(name = "id_utilisateur"), inverseJoinColumns = @JoinColumn(name = "idnotification"))
     List<Notification> notifications = new ArrayList<>();
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "utilisateur_roles",joinColumns = @JoinColumn(name = "utilisateur_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "utilisateur_roles",joinColumns = @JoinColumn(name ="id_utilisateur"),inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<Role> roles = new HashSet<>();
     @Transient
     private String errormessage;

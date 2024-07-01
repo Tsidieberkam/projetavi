@@ -12,8 +12,12 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true )
 public class Client extends Utilisateur {
-    @Column(name = "date_et_lieu_naissance")
+    @Column(name = "date_naissance")
     private Date dateEtLieuNaissance;
+    @Column(name = "Lieu_naissance")
+    private String LieuNaissance;
+    @Column(name = "numero_telephone")
+    private String numero_telephone;
     @Transient
     private String errormessage;
 }

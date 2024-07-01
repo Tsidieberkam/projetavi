@@ -11,17 +11,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-public class Document {
+public class FichTampon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idDocument;
-    @Column(name = "nom_document")
-    private String nomDocument;
-    @Column(name = "contenu", columnDefinition = "LONGBLOB")
+    private Long id_document;
+    @Column(name = "nom_doc")
+    private String nomdocument;
+    @Column(name = "contenus", columnDefinition = "LONGBLOB")
     @Lob
-    private byte[] contenu;
+    private byte[] contenus;
     @Transient
     private String errormessage;
 }
+

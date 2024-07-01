@@ -38,5 +38,8 @@ public class UtilisateurResponseDTO {
     private Set<Role> roles = new HashSet<>();
     private String typeUtilisateur;
     private Date dateEtLieuNaissance;
+    private String LieuNaissance;
+    private String numero_telephone;
     private String errormessage;
+    private String codePostal;
 }

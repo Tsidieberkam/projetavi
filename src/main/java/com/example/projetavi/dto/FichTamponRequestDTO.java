@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DocumentResponeDTO {
-    private Long idDocument;
-    private String nomDocument;
-    private  byte[]  contenu;
+public class FichTamponRequestDTO {
+    private String nomdocument;
+    private byte[] contenus;
 }

@@ -30,6 +30,8 @@ public class Avi {
     private Utilisateur utilisateur;
     @Column(name = "etablissement_acceuil")
     private String etablissementAcceuil;
+    @Column(name = "representant_legal")
+    private String representantlegal;
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name="avi_document",joinColumns=@JoinColumn(name="idAvi"),inverseJoinColumns=@JoinColumn(name="id_document"))
     List<Document> documents = new ArrayList<>();

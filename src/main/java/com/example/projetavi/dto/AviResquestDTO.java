@@ -1,6 +1,14 @@
 package com.example.projetavi.dto;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.projetavi.entite.Document;
+import com.example.projetavi.entite.Utilisateur;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +26,13 @@ public class AviResquestDTO {
     private String representantLegal;
     private String etablissement;
     private String nationaliter;
+    private String etablissementAcceuil;
+    private String representantlegal;
+    private List<Document> documents = new ArrayList<>();
+    private Utilisateur utilisateur;
+    private MultipartFile  lettreadmi;
+    private MultipartFile  passport;
+
 
     // Getters et setters pour chaque champ
 
@@ -91,5 +106,13 @@ public class AviResquestDTO {
 
     public void setNationaliter(String nationaliter) {
         this.nationaliter = nationaliter;
+    }
+
+    public String getRepresentantlegal() {
+        return representantlegal;
+    }
+
+    public void setRepresentantlegal(String representantlegal) {
+        this.representantlegal = representantlegal;
     }
 }

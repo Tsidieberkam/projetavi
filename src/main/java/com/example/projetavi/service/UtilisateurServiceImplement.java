@@ -1,7 +1,6 @@
 package com.example.projetavi.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -9,8 +8,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.projetavi.dto.UtilisateurRequestDTO;
 import com.example.projetavi.dto.UtilisateurResponseDTO;
 import com.example.projetavi.entite.Client;
+import com.example.projetavi.entite.Partenaire;
 import com.example.projetavi.entite.Role;
 import com.example.projetavi.entite.Utilisateur;
 import com.example.projetavi.repository.RoleRepository;
@@ -59,6 +58,8 @@ public class UtilisateurServiceImplement implements UtilisateurService {
                 user.setPays(urdto.getPays());
                 user.setDateinscription(new Date());
                 user.setDateEtLieuNaissance(urdto.getDateEtLieuNaissance());
+                user.setLieuNaissance(urdto.getLieuNaissance());
+                user.setNumero_telephone(urdto.getNumero_telephone());
                
 
                 Set<Role> roles = new HashSet<>();
@@ -93,7 +94,7 @@ public class UtilisateurServiceImplement implements UtilisateurService {
             ur.setPrenom(utilisateur.getPrenom());
             ur.setEmail(utilisateur.getEmail());
             ur.setDateinscription(utilisateur.getDateinscription());
-            ur.setIdUtilisateur(utilisateur.getIdUtilisateur());
+            ur.setIdUtilisateur(utilisateur.getId_utilisateur());
             ur.setMdp(utilisateur.getPassword());
             ur.setPays(utilisateur.getPays());
             ur.setVille(utilisateur.getVille());
@@ -102,6 +103,14 @@ public class UtilisateurServiceImplement implements UtilisateurService {
             if (utilisateur instanceof Client) {
                 ur.setTypeUtilisateur("Client");
                 ur.setDateEtLieuNaissance(((Client) utilisateur).getDateEtLieuNaissance());
+                ur.setLieuNaissance(((Client) utilisateur).getLieuNaissance());
+                ur.setNumero_telephone(((Client) utilisateur).getNumero_telephone());
+            }
+
+            if(utilisateur instanceof Partenaire){
+                ur.setTypeUtilisateur("Partenaire");
+                ur.setNumero_telephone(((Partenaire) utilisateur).getNumero_telephone());
+                ur.setCodePostal(((Partenaire) utilisateur).getCodePostal());
             }
     
             utilisateursResponse.add(ur);
@@ -114,7 +123,12 @@ public class UtilisateurServiceImplement implements UtilisateurService {
        
         Utilisateur ure = utiRe.findByEmailAndPassword(ur.getEmail(), ur.getMdp());
 
-         return ure;  
+        if( ure == null){
+
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "connexion echouee");
+        }
+
+        return ure;  
     }
 
 
@@ -162,5 +176,48 @@ public class UtilisateurServiceImplement implements UtilisateurService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur introuvable");
         }
     }
+
+
+
+    @Override
+    public List<UtilisateurResponseDTO> inscriptionpartenairelog(List<UtilisateurRequestDTO> plg) {
+        List<UtilisateurResponseDTO> partenaireresponseDtosError = new ArrayList<>();
+    
+        for (UtilisateurRequestDTO urdto : plg) {
+            if (utiRe.findByNomAndEmail(urdto.getNom(), urdto.getEmail()) == null) {
+                Partenaire user = new Partenaire();
+                    user.setNom(urdto.getNom());
+                    user.setPrenom(urdto.getPrenom());
+                    user.setEmail(urdto.getEmail());
+                    user.setVille(urdto.getVille());
+                    user.setPassword((urdto.getMdp()));
+                    user.setPays(urdto.getPays());
+                    user.setDateinscription(new Date());
+                    user.setNumero_telephone(urdto.getNumero_telephone());
+                    user.setCodePostal(urdto.getCodePostal());
+                
+
+                    Set<Role> roles = new HashSet<>();
+                    Role rl = rrsi.findByNom("PARTENAIRE");
+                    roles.add(rl);
+                    user.setRoles(roles);
+
+                    utiRe.save(user);
+            } else {
+                UtilisateurResponseDTO urp = new UtilisateurResponseDTO();
+                urp.setNom(urdto.getNom());
+                urp.setPrenom(urdto.getPrenom());
+                urp.setErrormessage("utilisateur existe deja !!");
+                partenaireresponseDtosError.add(urp);
+            }
+        }
+
+        if (!partenaireresponseDtosError.isEmpty()) {
+            return partenaireresponseDtosError;
+        }
+
+        return listuser();
+    }
+
   
 }

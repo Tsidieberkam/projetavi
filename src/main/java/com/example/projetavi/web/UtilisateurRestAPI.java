@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.projetavi.dto.RoleRequestDTO;
-import com.example.projetavi.dto.RoleResponseDTO;
+
 import com.example.projetavi.dto.UtilisateurRequestDTO;
 import com.example.projetavi.dto.UtilisateurResponseDTO;
 import com.example.projetavi.entite.Utilisateur;
@@ -35,12 +34,17 @@ public class UtilisateurRestAPI {
         return us.inscription(rst);
     }
 
+    @PostMapping( path="/saveparte")
+    public List<UtilisateurResponseDTO> saveparte (@RequestBody List<UtilisateurRequestDTO> klm){
+        return us.inscriptionpartenairelog(klm);
+    }
+
     @GetMapping(path = "/utilisateur/liste")
     public List<UtilisateurResponseDTO> alluser(){
         return us.listuser();
     }
 
-    @PostMapping( path="connexion")
+    @PostMapping( path="/connexion")
     public  Utilisateur connexion(@RequestBody UtilisateurRequestDTO ui){
         return us.connexUtilisateur(ui);
     }

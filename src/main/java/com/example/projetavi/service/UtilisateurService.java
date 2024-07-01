@@ -12,6 +12,8 @@ public interface UtilisateurService  {
     public Utilisateur connexUtilisateur( UtilisateurRequestDTO ur);
     public List<UtilisateurResponseDTO> modifyuser( Long id , UtilisateurRequestDTO ust);
     public  List<UtilisateurResponseDTO> deleteuser(Long id);
+    public List<UtilisateurResponseDTO> inscriptionpartenairelog (List<UtilisateurRequestDTO> plg);
+ 
 
 
 }
