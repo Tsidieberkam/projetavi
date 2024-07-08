@@ -3,6 +3,7 @@ package com.example.projetavi.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.projetavi.dto.LogementRequest;
 import com.example.projetavi.dto.LogementResponse;
+import com.example.projetavi.entite.Utilisateur;
 import com.example.projetavi.service.ServiceLogement;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -59,7 +64,17 @@ public class LogementRestAPI {
     }
 
     @GetMapping(path = "/logement/liste")
-    public List<LogementResponse> alllogement() {
-        return sl.listlog();
+        public List<LogementResponse> alllogement(HttpSession session) {
+        Utilisateur utilisateurConnecte = (Utilisateur) session.getAttribute("utilisateurConnecte");
+
+        // Vérifiez si l'utilisateur connecté est nul
+        if (utilisateurConnecte == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Utilisateur non connecté");
+        }
+
+        return sl.listlog(utilisateurConnecte);
     }
+
 }
+
+

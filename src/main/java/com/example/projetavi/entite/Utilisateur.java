@@ -49,9 +49,9 @@ public class Utilisateur  {
     @OneToOne
     @JoinColumn(name = "id_avi")
     private Avi avi;
-    @OneToOne
-    @JoinColumn(name = "idLogement")
-    private Logement logement;
+    @OneToMany
+    @JoinTable(name = "utilisateur_logement", joinColumns = @JoinColumn(name = "id_utilisateur"), inverseJoinColumns = @JoinColumn(name = "idLogement"))
+    List<Logement> logements = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "utilisateur_message", joinColumns = @JoinColumn(name = "id_utilisateur"), inverseJoinColumns = @JoinColumn(name = "idmessage"))
     List<Message> messages = new ArrayList<>();

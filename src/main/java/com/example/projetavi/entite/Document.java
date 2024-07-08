@@ -19,9 +19,9 @@ public class Document {
     private Long idDocument;
     @Column(name = "nom_document")
     private String nomDocument;
-    @Column(name = "contenu", columnDefinition = "LONGBLOB")
-    @Lob
-    private byte[] contenu;
+    @Lob  // Utilisation de @Lob pour indiquer une colonne de type CLOB (large object)
+    @Column(name = "contenu", length = 80000)  // Ajuster la taille selon vos besoins
+    private String contenu;
     @Transient
     private String errormessage;
 }

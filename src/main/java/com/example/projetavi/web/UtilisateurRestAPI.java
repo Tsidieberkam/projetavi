@@ -17,6 +17,8 @@ import com.example.projetavi.dto.UtilisateurResponseDTO;
 import com.example.projetavi.entite.Utilisateur;
 import com.example.projetavi.service.UtilisateurService;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping(path = "/api")
 @CrossOrigin
@@ -44,10 +46,18 @@ public class UtilisateurRestAPI {
         return us.listuser();
     }
 
-    @PostMapping( path="/connexion")
-    public  Utilisateur connexion(@RequestBody UtilisateurRequestDTO ui){
-        return us.connexUtilisateur(ui);
+    @PostMapping(path="/connexion")
+    public Utilisateur connexion(@RequestBody UtilisateurRequestDTO ui, HttpSession session) {
+        // Authentifier l'utilisateur
+        Utilisateur utilisateur = us.connexUtilisateur(ui);
+    
+        // Stocker l'utilisateur connecté dans la session
+        session.setAttribute("utilisateurConnecte", utilisateur);
+    
+        // Retourner l'objet Utilisateur
+        return utilisateur;
     }
+    
 
     @PutMapping(path ="/updateuser/{id}")
     public List<UtilisateurResponseDTO> updateuser (@PathVariable("id") long id, @RequestBody UtilisateurRequestDTO uuest){

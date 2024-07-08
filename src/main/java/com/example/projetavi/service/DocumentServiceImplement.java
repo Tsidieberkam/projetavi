@@ -1,7 +1,7 @@
 package com.example.projetavi.service;
 
 import java.util.ArrayList;
-
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class DocumentServiceImplement implements DocumentService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "contenu non trouvé");
             }else{
             doc.setNomDocument(dre.getNomDocument());
-            doc.setContenu(dre.getContenu());
+            doc.setContenu(Base64.getEncoder().encodeToString(dre.getContenu()));
             dosi.save(doc);
         }  
      }

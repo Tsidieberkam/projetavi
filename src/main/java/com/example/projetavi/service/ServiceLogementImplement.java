@@ -2,15 +2,16 @@ package com.example.projetavi.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.projetavi.dto.LogementRequest;
 import com.example.projetavi.dto.LogementResponse;
-import com.example.projetavi.dto.UtilisateurResponseDTO;
 import com.example.projetavi.entite.Document;
 import com.example.projetavi.entite.Logement;
 import com.example.projetavi.entite.Partenaire;
@@ -24,16 +25,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ServiceLogementImplement implements ServiceLogement {
-
+public class ServiceLogementImplement implements ServiceLogement  {
+    
+    @Autowired
     private LogementRepository lgr;
-    private UtilisateurRepository ure;
-    private DocumentRepository dr;
 
-    public ServiceLogementImplement(LogementRepository lgr, UtilisateurRepository ure, DocumentRepository dr) {
+    @Autowired
+    private UtilisateurRepository ure;
+
+    private DocumentRepository dr;
+    
+    private UtilisateurService usi;
+
+ 
+
+    public ServiceLogementImplement(LogementRepository lgr, UtilisateurRepository ure, DocumentRepository dr, UtilisateurService usi) {
         this.lgr = lgr;
         this.ure = ure;
         this.dr = dr;
+        this.usi = usi;
     }
 
     @Override
@@ -57,7 +67,7 @@ public class ServiceLogementImplement implements ServiceLogement {
                         Document dcmt = new Document();
                         String randm = "PHOTO" + utili.getNom();
                         dcmt.setNomDocument(randm);
-                        dcmt.setContenu(photo.getBytes());
+                        dcmt.setContenu(Base64.getEncoder().encodeToString(photo.getBytes()));
                         dr.save(dcmt);
                         dc.add(dcmt);
                     }
@@ -72,32 +82,40 @@ public class ServiceLogementImplement implements ServiceLogement {
 
         return null;
     }
-
     @Override
-    public List<LogementResponse> listlog() {
-    List<LogementResponse> lgres = new ArrayList<>();
-    List<Logement> lbt = lgr.findAll();
-
-    for (Logement l : lbt) {
-        if (l.getPartenaire() instanceof Partenaire) { // Vérifie si l'utilisateur est de type Partenaire
-            LogementResponse lop = new LogementResponse();
-            lop.setIdLogement(l.getIdLogement());
-            lop.setPrix(l.getPrix());
-            lop.setVille(l.getVille());
-            lop.setPays(l.getPays());
-            lop.setModele(l.getModele());
-            if (l.getDocuments() != null && !l.getDocuments().isEmpty()) {
-                lop.setDocuments(Collections.singletonList(l.getDocuments().get(0)));
+    public List<LogementResponse> listlog(Utilisateur utilisateurConnecte) {
+        // Initialiser la liste des réponses de logements
+        List<LogementResponse> logementResponses = new ArrayList<>();
+        List<Logement> logements = lgr.findAll();
+    
+        for (Logement logement : logements) {
+            Utilisateur partenaire = logement.getPartenaire();
+            
+            // Vérifier si le partenaire est l'utilisateur connecté
+            if (partenaire != null && partenaire instanceof Partenaire && partenaire.getEmail().equals(utilisateurConnecte.getEmail())) {
+                LogementResponse logementResponse = new LogementResponse();
+                logementResponse.setIdLogement(logement.getIdLogement());
+                logementResponse.setPrix(logement.getPrix());
+                logementResponse.setVille(logement.getVille());
+                logementResponse.setPays(logement.getPays());
+                logementResponse.setModele(logement.getModele());
+    
+                if (logement.getDocuments() != null && !logement.getDocuments().isEmpty()) {
+                    logementResponse.setDocuments(Collections.singletonList(logement.getDocuments().get(0)));
+                }
+    
+                logementResponse.setDescription(logement.getDescription());
+                logementResponse.setPartenaire(partenaire);
+                logementResponse.setDisponibilite(isdisponibiilite(logement.getIdLogement()));
+    
+                logementResponses.add(logementResponse);
             }
-            lop.setDescription(l.getDescription());
-            lop.setPartenaire(l.getPartenaire());
-            lop.setDisponibilite(isdisponibiilite(l.getIdLogement()));
-            lgres.add(lop);
         }
+    
+        return logementResponses;
     }
-
-    return lgres;
-}
+    
+    
 
     @Override
     public boolean isdisponibiilite(Long idlog) {

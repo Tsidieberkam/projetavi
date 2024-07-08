@@ -15,6 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -39,7 +41,7 @@ public class Logement {
     private double prix;
     @Column(name = "modele")
     private String modele;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_utilisateur")
     private Utilisateur partenaire;
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,CascadeType.MERGE})
@@ -48,9 +50,4 @@ public class Logement {
     @Transient
     private String errormessage;
    
-
-
-
-
-
 }

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class DocumentResponeDTO {
     private Long idDocument;
     private String nomDocument;
-    private  byte[]  contenu;
+    private String  contenu;
 }
