@@ -32,7 +32,7 @@ public class UtilisateurResponseDTO {
     private Date dateinscription;
     private List<Account> accounts = new ArrayList<>();
     private Avi avi;
-    private Logement logement;
+    List<Logement> logement = new ArrayList<>();
     private List<Message> messagers = new ArrayList<>();
     private List<Notification> notifications = new ArrayList<>();
     private Set<Role> roles = new HashSet<>();
@@ -42,4 +42,5 @@ public class UtilisateurResponseDTO {
     private String numero_telephone;
     private String errormessage;
     private String codePostal;
+    private String matricule;
 }

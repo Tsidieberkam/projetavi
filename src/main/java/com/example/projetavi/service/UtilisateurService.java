@@ -11,8 +11,16 @@ public interface UtilisateurService  {
     public List<UtilisateurResponseDTO> listuser();
     public Utilisateur connexUtilisateur( UtilisateurRequestDTO ur);
     public List<UtilisateurResponseDTO> modifyuser( Long id , UtilisateurRequestDTO ust);
-    public  List<UtilisateurResponseDTO> deleteuser(Long id);
+    public  List<UtilisateurResponseDTO> deleteclientavilog(Long id);
     public List<UtilisateurResponseDTO> inscriptionpartenairelog (List<UtilisateurRequestDTO> plg);
+    public List<UtilisateurResponseDTO> inscriptionconseiller(List<UtilisateurRequestDTO> urer);
+    public List<UtilisateurResponseDTO> listclientavilog();
+    public List<UtilisateurResponseDTO> listcon();
+    public List<UtilisateurResponseDTO> listpartenairelog();
+    public List<UtilisateurResponseDTO> infosclient(Utilisateur utilisateurConnecte);
+    public  List<UtilisateurResponseDTO> deletepartenairelog(Long id);
+    public  List<UtilisateurResponseDTO> deletecon(Long id);
+    
  
 
 

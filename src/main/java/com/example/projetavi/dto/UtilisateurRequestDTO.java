@@ -22,4 +22,5 @@ public class UtilisateurRequestDTO {
     private String LieuNaissance;
     private String numero_telephone;
     private String codePostal;
+    private String matricule;
 }
